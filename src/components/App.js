@@ -1,20 +1,41 @@
-import React, { Component, useState, useEffect } from "react";
-import '../styles/App.css';
 
-const App = () => {
-  // write your code here 
+import '../styles/App.css';
+import React, { Component, useState, useEffect } from 'react';
+
+function App() {
+  const [countdown, setCountdown] = useState(0);
+  const [timer, setTimer] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    if (countdown === 0 && timer) {
+      clearInterval(timer);
+      setTimer(null);
+    }
+  }, [countdown, timer]);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      const value = Math.floor(parseFloat(inputValue));
+      if (isNaN(value)) {
+        setCountdown(0);
+      } else {
+        setCountdown(value);
+        setTimer(setInterval(() => setCountdown((c) => c - 1), 1000));
+      }
+    }
+  };
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
 
   return (
-    <div className="wrapper">
-      <div id="whole-center">
-        <h1>
-          Reverse countdown for<input id="timeCount" onKeyDown={/* callback function */} /> sec.
-        </h1>
-      </div>
-      <div id="current-time">{/* remaining time */}</div>
+    <div>
+      <input type="text" value={inputValue} onChange={handleChange} onKeyDown={handleKeyDown} />
+      <div id="current-time">{countdown}</div>
     </div>
-  )
+  );
 }
-
 
 export default App;
