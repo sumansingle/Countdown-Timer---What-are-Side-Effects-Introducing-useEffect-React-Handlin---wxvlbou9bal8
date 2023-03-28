@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div>
-      <input type="text" value={inputValue} onChange={handleChange} onKeyDown={handleKeyDown} />
+      <input type="text" id="timeCount" value={inputValue} onChange={handleChange} onKeyDown={handleKeyDown} />
       <div id="current-time">{countdown}</div>
     </div>
   );
