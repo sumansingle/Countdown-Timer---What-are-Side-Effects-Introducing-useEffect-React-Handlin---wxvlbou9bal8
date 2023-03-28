@@ -1,6 +1,6 @@
 
 import '../styles/App.css';
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
   const [countdown, setCountdown] = useState(0);
@@ -17,12 +17,20 @@ function App() {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       const value = Math.floor(parseFloat(inputValue));
-      if (isNaN(value)) {
+      if (isNaN(value) || value < 0) {
         setCountdown(0);
+        if (timer) {
+          clearInterval(timer);
+          setTimer(null);
+        }
       } else {
         setCountdown(value);
+        if (timer) {
+          clearInterval(timer);
+        }
         setTimer(setInterval(() => setCountdown((c) => c - 1), 1000));
       }
+      setInputValue('');
     }
   };
 
